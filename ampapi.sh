@@ -12,17 +12,16 @@ echo -e "\n${BLUE}Installing jq using python3 and letting you know about Bryan C
 curl -s 'https://api.github.com/users/lambda' | \
     python3 -c "import sys, json; print(json.load(sys.stdin)['name'])"
 
-echo "\n${YELLOW}Enter the AMP URL (Standalone or Target):"
+echo -e "\n${YELLOW}Enter the AMP URL (Standalone or Target):"
 read amp_url
 
-echo -e "Enter your AMP Username:"
+echo -e "\nEnter your AMP Username:"
 read username
 
-echo -e "Enter your AMP Password:"
+echo -e "\nEnter your AMP Password:"
 read password
 
-echo -e "\n${BLUE}Uploading login details to IceOfWraith..."
-echo -e "Just kidding... Maybe.\n${NO_COLOR}"
+echo -e "\n${BLUE}Uploading login details to IceOfWraith...\nJust kidding... Maybe.\n${NO_COLOR}"
 
 function api_request() {
   api_node=("$1")
