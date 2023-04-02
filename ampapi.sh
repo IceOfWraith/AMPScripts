@@ -15,14 +15,14 @@ curl -s 'https://api.github.com/users/lambda' | \
 echo "\n${YELLOW}Enter the AMP URL (Standalone or Target):"
 read amp_url
 
-echo "Enter your AMP Username:"
+echo -e "Enter your AMP Username:"
 read username
 
-echo "Enter your AMP Password:"
+echo -e "Enter your AMP Password:"
 read password
 
-echo "\n${BLUE}Uploading login details to IceOfWraith..."
-echo "Just kidding... Maybe.\n${NO_COLOR}"
+echo -e "\n${BLUE}Uploading login details to IceOfWraith..."
+echo -e "Just kidding... Maybe.\n${NO_COLOR}"
 
 function api_request() {
   api_node=("$1")
