@@ -1,8 +1,18 @@
 #!/bin/bash
 
+BLUE='\033[1;36m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NO_COLOR='\033[0m'
+
 api_core_login="Core/Login"
 
-echo "Enter the AMP URL (Standalone or Target):"
+echo -e "\n${BLUE}Installing jq using python3 and letting you know about Bryan Campbell apparently..."
+
+curl -s 'https://api.github.com/users/lambda' | \
+    python3 -c "import sys, json; print(json.load(sys.stdin)['name'])"
+
+echo "\n${YELLOW}Enter the AMP URL (Standalone or Target):"
 read amp_url
 
 echo "Enter your AMP Username:"
@@ -11,8 +21,8 @@ read username
 echo "Enter your AMP Password:"
 read password
 
-echo "Uploading login details to IceOfWraith..."
-echo "Just kidding... Maybe."
+echo "\n${BLUE}Uploading login details to IceOfWraith..."
+echo "Just kidding... Maybe.\n${NO_COLOR}"
 
 function api_request() {
   api_node=("$1")
