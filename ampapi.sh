@@ -5,7 +5,9 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NO_COLOR='\033[0m'
 
-api_core_login="Core/Login"
+api_corelogin="Core/Login"
+api_getinstances="ADSModule/GetInstances"
+api_getprovisionarguments="ADSModule/GetProvisionArguments"
 
 echo -e "\n${BLUE}Installing jq using python3 and letting you know about Bryan Campbell apparently..."
 
@@ -26,10 +28,16 @@ echo -e "\n${BLUE}Uploading login details to IceOfWraith...\nJust kidding... May
 function api_request() {
   api_node=("$1")
   shift
-  args=("$@")
   local json='{'
+  if [[ ${api_node} != "Core/Login" ]]; then
+    json+=$1
+    shift
+  fi
+  args=("$@")
   for (( i=0; i<${#args[@]}; i+=2 )); do
-    if [[ $i > 1 ]]; then
+   if [[ $i == 0 && ${api_node} != "Core/Login" ]]; then
+      json+=","
+    elif [[ $i > 1 ]]; then
       json+=","
     fi
     key="${args[$i]}"
@@ -41,5 +49,15 @@ function api_request() {
   response=$(curl -w -X POST -H "Content-Type: application/json" -H "Accept: text/javascript" -d ${json} ${amp_url}/API/${api_node} -s | sed 's/^-X//' | sed 's/-X$//')
 }
 
-api_request ${api_core_login} "username" ${username} "password" ${password} "token" "" "rememberMe" "false"
+api_request ${api_corelogin} "username" ${username} "password" ${password} "token" "" "rememberMe" "false"
+session_id='"SESSIONID":"'"$(echo "${response}" | jq -r '.sessionID')"'"'
+
+#echo ${response}
+
+api_request ${api_getinstances} "${session_id}"
+
+echo ${response} | jq .
+
+api_request ${api_getprovisionarguments} "${session_id}" "ModuleName" "GenericModule"
+
 echo ${response} | jq .
